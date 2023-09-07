@@ -1,0 +1,25 @@
+version: "3"
+services:
+  web:
+    image: task3app
+    command: python3 app.py run -h 0.0.0.0
+    volumes:
+      - ./app:/app
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env.dev
+    working_dir: /app
+  db:
+    image: postgres:13
+    environment:
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=task3db
+    ports:
+      - "3307:3306"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:

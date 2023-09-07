@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    display: flexbox;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+</style>
+<title>Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>  
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/user/list">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/onlineusers">Online Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+    </ul>
+    {% if session.successMessage %}
+        <div class="alert alert-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times</span>
+            {{ session.successMessage}}
+        </div>
+    {% elif session.errorMessage %}
+        <div class="alert alert-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times</span>
+            {{ session.errorMessage}}
+        </div>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h1>User List</h1>
+            </div>
+            {% if user_list %}
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Middlename</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Birthdate</th>
+                        <th scope="col">Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in user_list %}
+                    <tr>
+                        <th scope="col">{{ user.id }}</th>
+                        <td>{{ user.username}}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.middlename }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.birthdate }}</td>
+                        <td>
+                            <div style="display: flex; flex: auto;">
+                                <form action="/user/delete/{{user.id}}" method="post">
+                                    <input type="hidden" name="method" value="DELETE">
+                                    <button type="submit" class="btn btn-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                            <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                            <div style="display: flex; flex: auto;">
+                                <form action="/user/update/{{user.id}}" method="post">
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="username">Username:</label>
+                                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="username">Firstname:</label>
+                                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter Firstname">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="username">Middlename:</label>
+                                                        <input type="text" class="form-control" id="middlename" name="middlename" placeholder="Enter Middlename">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="username">Lastname:</label>
+                                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Lastname">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="username">Birthdate:</label>
+                                                        <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Enter Birthdate">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="username">Email:</label>
+                                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="username">Password:</label>
+                                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </form>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>   
+            {% else %}
+            <div>
+                <h1>There are no users currently</h1>
+            </div>
+            {% endif %} 
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

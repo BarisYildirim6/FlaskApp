@@ -1,0 +1,4 @@
+env/
+services/web/__pycache__/
+services/web/project/__pycache__/
+services/web/project/views/__pycache__/

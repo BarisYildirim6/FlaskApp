@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    display: flexbox;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+</style>
+<title>Register</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    {% if session.successMessage %}
+        <div class="alert alert-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times</span>
+            {{ session.successMessage}}
+        </div>
+    {% elif session.errorMessage %}
+        <div class="alert alert-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times</span>
+            {{ session.errorMessage}}
+        </div>
+    {% endif %}
+    <div class="container">
+        <div class="row" style="display: flexbox; justify-content: center; align-items: center;">
+            <div class="card" style="max-width: 500px;">
+                <div style="display: flex; justify-content: center; padding-top: 20px;">
+                    <h1 class="card-title">Register</h1>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('user.create_user') }}" method="post">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Firstname:</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter Firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Middlename:</label>
+                            <input type="text" class="form-control" id="middlename" name="middlename" placeholder="Enter Middlename">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Lastname:</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Lastname">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Birthdate:</label>
+                            <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Enter Birthdate">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+                        </div>
+                        <div style="margin-top: 10px; margin-bottom: 10px;">
+                            <button class="btn btn-primary">Register</button>
+                        </div>
+                    </form>
+                    <form action="{{ url_for('auth.login') }}" method="get">
+                        <div style="margin-top: 10px; margin-bottom: 10px;">
+                            <button class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
